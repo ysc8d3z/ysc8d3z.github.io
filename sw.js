@@ -1,4 +1,4 @@
-const CACHE = 'hybrid-plan-v1';
+const CACHE = 'hybrid-plan-v2';
 const CORE = [
   './',
   './index.html',
