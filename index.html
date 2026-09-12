@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0B0E10">
+<title>Hybrid Workout Plan</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Workout">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0E10;
+  --surface:#12171A;
+  --surface-2:#171D21;
+  --line:#212A2E;
+  --line-soft:#1A2225;
+  --ink:#E4E9EA;
+  --dim:#8B989C;
+  --orange:#FF8A1F;
+  --power:#FF6B4A;
+  --tension:#3ED598;
+  --aerobic:#4EA8DE;
+  --mobility:#E0B341;
+  --fuel:#B48EF0;
+}
+
+/* ---- full-bleed dark background ---- */
+html,body{background:var(--bg) !important;min-height:100%}
+body::before{content:"";position:fixed;inset:-10vh 0;background:var(--bg);z-index:-1}
+.app{background:var(--bg);min-height:100vh}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;color-scheme:dark}
+body{color:var(--ink);font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
+.mono,.pres,.rest,.meta,.tag,.num{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-variant-numeric:tabular-nums}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px}
+
+/* ---------- header ---------- */
+header{padding:26px 0 16px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;
+  color:var(--orange);margin-bottom:10px}
+h1{font-size:2.1rem;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--orange)}
+.sub{color:var(--dim);font-size:.88rem;margin-top:9px;max-width:54ch}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;margin-top:18px;
+  background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.stat{background:var(--surface);padding:10px 12px}
+.stat b{display:block;font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{display:block;font-size:.7rem;color:var(--dim);margin-top:3px}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr)}}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:30;background:var(--bg);
+  margin:0 -14px;padding:9px 14px 0;border-bottom:1px solid var(--line)}
+.days{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:1 0 auto;min-width:62px;background:var(--surface);border:1px solid var(--line);
+  border-radius:4px;padding:7px 8px 8px;text-align:left;font:inherit;color:var(--ink);
+  position:relative;overflow:hidden;cursor:pointer}
+.day .dn{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem;
+  letter-spacing:.06em;display:block;color:var(--dim)}
+.day .dt{font-size:.66rem;color:var(--dim);display:block;margin-top:2px;opacity:.75}
+.day[aria-selected="true"]{background:var(--surface-2);border-color:#3A464B}
+.day[aria-selected="true"] .dn{color:var(--tension)}
+.day[aria-selected="true"] .dt{color:var(--ink);opacity:1}
+.day[aria-selected="true"]::after{content:"";position:absolute;left:0;bottom:0;height:2px;
+  width:100%;background:var(--tension)}
+.day .today{position:absolute;top:5px;right:6px;width:4px;height:4px;border-radius:50%;
+  background:var(--orange)}
+.subtabs{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;padding:11px 0 9px}
+.subtabs::-webkit-scrollbar{display:none}
+.subtab{background:none;border:0;padding:0 0 3px;font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;letter-spacing:.08em;color:var(--dim);cursor:pointer;white-space:nowrap;
+  border-bottom:2px solid transparent}
+.subtab[aria-selected="true"]{color:var(--orange);border-bottom-color:var(--orange)}
+button:focus-visible{outline:2px solid var(--tension);outline-offset:2px;border-radius:2px}
+
+/* ---------- panels ---------- */
+#panels{padding-top:28px;scroll-margin-top:120px}
+[role="tabpanel"][hidden]{display:none}
+.shdr{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.shdr h2{font-size:1.15rem;font-weight:600;letter-spacing:-.01em;white-space:nowrap;color:var(--orange)}
+.shdr .tag{font-size:.66rem;letter-spacing:.12em;color:var(--orange);opacity:.7;white-space:nowrap}
+.shdr::after{content:"";flex:1;height:1px;background:var(--line)}
+h3{font-size:1rem;font-weight:600;letter-spacing:-.01em}
+.lede{color:var(--dim);font-size:.85rem;line-height:1.65;margin-bottom:16px;max-width:66ch}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.72rem;color:var(--dim);margin-bottom:18px}
+.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+
+/* ---------- session cards ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:5px;
+  margin-bottom:14px;overflow:hidden}
+.chead{padding:12px 14px;border-bottom:1px solid var(--line);background:var(--surface-2);
+  display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chead .lbl{display:flex;align-items:center;gap:9px}
+.chead .dot{width:7px;height:7px;border-radius:50%;background:var(--tension);flex:none}
+.chead[data-q="power"] .dot{background:var(--power)}
+.chead[data-q="aerobic"] .dot{background:var(--aerobic)}
+.chead .meta{font-size:.68rem;color:var(--dim);white-space:nowrap;letter-spacing:.04em}
+.ex{display:grid;grid-template-columns:1fr auto;gap:3px 14px;
+  padding:12px 14px 12px 18px;border-bottom:1px solid var(--line-soft);position:relative}
+.ex:last-child{border-bottom:0}
+.ex::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tension)}
+.ex[data-q="power"]::before{background:var(--power)}
+.ex[data-q="aerobic"]::before{background:var(--aerobic)}
+.ex[data-q="mobility"]::before{background:var(--mobility)}
+.ex .name{font-weight:600;font-size:.93rem;line-height:1.35;letter-spacing:-.01em}
+.ex .pres{font-size:.83rem;font-weight:700;text-align:right;white-space:nowrap}
+.ex .cue{grid-column:1/-1;font-size:.79rem;color:var(--dim);line-height:1.55;margin-top:2px}
+.ex .rest{grid-column:2;text-align:right;font-size:.66rem;color:var(--dim);white-space:nowrap}
+.pair{background:var(--surface-2)}
+.pair .name::after{content:" ⟳";color:var(--dim);font-size:.85em}
+
+/* ---------- tables ---------- */
+.tbl{width:100%;border-collapse:collapse;font-size:.82rem;background:var(--surface);
+  border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.tbl th{font-family:'JetBrains Mono',monospace;font-weight:500;text-align:left;padding:10px;
+  border-bottom:1px solid var(--line);font-size:.68rem;letter-spacing:.1em;
+  color:var(--dim);background:var(--surface-2)}
+.tbl td{padding:10px;border-bottom:1px solid var(--line-soft);vertical-align:top;
+  color:#B7C1C3;line-height:1.55}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{font-weight:600;color:var(--ink)}
+.tbl td.num{white-space:nowrap;color:var(--ink)}
+.tbl td .qual{color:var(--dim);font-weight:400}
+
+/* ---------- rules ---------- */
+.rules{border:1px solid var(--line);border-radius:5px;background:var(--surface);overflow:hidden}
+.rule{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:13px 14px;
+  border-bottom:1px solid var(--line-soft)}
+.rule:last-child{border-bottom:0}
+.rule .k{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--fuel);
+  letter-spacing:.08em;padding-top:3px;white-space:nowrap}
+.rule .t{font-size:.87rem;line-height:1.6}
+.rule .t b{font-weight:600}
+
+/* ---------- bites ---------- */
+.bite{background:var(--surface);border:1px solid var(--line);border-radius:5px;
+  padding:13px 15px;margin-bottom:12px;position:relative}
+.bite::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;
+  background:var(--mobility);border-radius:0 2px 2px 0}
+.bite .when{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--dim);
+  letter-spacing:.06em;margin:3px 0 9px}
+.bite ol{margin:0;padding-left:17px;font-size:.85rem;color:#B7C1C3}
+.bite li{margin-bottom:5px;line-height:1.5}
+.bite li:last-child{margin-bottom:0}
+.bite li b{font-weight:600;color:var(--ink)}
+
+/* ---------- notices ---------- */
+.note{font-size:.82rem;color:var(--dim);margin-top:14px;line-height:1.7;max-width:70ch}
+.warn{background:#1A1214;border:1px solid #3A2126;border-radius:5px;padding:13px 15px;
+  font-size:.84rem;color:#C6B4B6;line-height:1.65;margin-top:16px}
+.warn h3{color:var(--power);margin-bottom:6px;font-size:.95rem}
+.skip{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:14px 15px;
+  font-size:.84rem;color:#B7C1C3;margin-top:16px;line-height:1.6}
+.skip h3{margin-bottom:9px}
+.skip ul{margin:0;padding-left:17px}
+.skip li{margin-bottom:7px}
+.skip li:last-child{margin-bottom:0}
+.skip b{color:var(--ink)}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--dim);letter-spacing:.06em}
+@media(min-width:620px){h1{font-size:2.7rem}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">8-WEEK BLOCK · REACQUISITION · ONE-LEG DUNK + AEROBIC BASE</p>
+  <h1>Hybrid Workout Plan</h1>
+  <p class="sub">Upper body hypertrophy, lower body force output, and the opening aerobic base for the 2028 build.</p>
+  <div class="stats">
+    <div class="stat"><b>176–180</b><span>target lb</span></div>
+    <div class="stat"><b>4 + 3</b><span>lifts + aerobic</span></div>
+    <div class="stat"><b>45 min</b><span>session cap</span></div>
+    <div class="stat"><b>180 g</b><span>protein daily</span></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="days" role="tablist" aria-label="Day">
+    <button class="day" role="tab" data-panel="p-mon"><span class="dn">MON</span><span class="dt">Upper A</span></button>
+    <button class="day" role="tab" data-panel="p-tue"><span class="dn">TUE</span><span class="dt">Jump &amp; Force</span></button>
+    <button class="day" role="tab" data-panel="p-wed"><span class="dn">WED</span><span class="dt">Swim</span></button>
+    <button class="day" role="tab" data-panel="p-thu"><span class="dn">THU</span><span class="dt">Upper B</span></button>
+    <button class="day" role="tab" data-panel="p-fri"><span class="dn">FRI</span><span class="dt">Run + arms</span></button>
+    <button class="day" role="tab" data-panel="p-sat"><span class="dn">SAT</span><span class="dt">Full body</span></button>
+    <button class="day" role="tab" data-panel="p-sun"><span class="dn">SUN</span><span class="dt">Bike / off</span></button>
+  </div>
+  <div class="subtabs" role="tablist" aria-label="Reference">
+    <button class="subtab" role="tab" data-panel="p-fuel">FUEL</button>
+    <button class="subtab" role="tab" data-panel="p-mobility">MOBILITY</button>
+    <button class="subtab" role="tab" data-panel="p-prog">PROGRESSION</button>
+  </div>
+</nav>
+
+<div id="panels">
+
+<div class="legend" id="legend">
+  <span><i style="background:var(--power)"></i>Move fast — intent is the stimulus</span>
+  <span><i style="background:var(--tension)"></i>Move controlled — tension is the stimulus</span>
+  <span><i style="background:var(--aerobic)"></i>Aerobic</span>
+  <span><i style="background:var(--mobility)"></i>Mobility</span>
+</div>
+
+<!-- MONDAY -->
+<div id="p-mon" role="tabpanel" hidden>
+  <div class="card">
+    <div class="chead" data-q="tension"><span class="lbl"><i class="dot"></i><h3>Monday — Upper A</h3></span><span class="meta">≈45 MIN</span></div>
+    <div class="ex" data-q="tension">
+      <span class="name">Barbell bench press</span><span class="pres">4 × 5–7</span><span class="rest">rest 2:30</span>
+      <span class="cue">RPE 8, leave a rep. Two seconds down, drive the bar back over the shoulders, not straight up. This is your strength lift for the week — log every set.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Chest-supported row</span><span class="pres">3 × 8–10</span><span class="rest">rest 90s</span>
+      <span class="cue">Pull to the lower ribs, pause one second with the shoulder blades pinned. Superset with the next movement.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Incline dumbbell press</span><span class="pres">3 × 8–12</span><span class="rest">rest 90s</span>
+      <span class="cue">30° bench. Stop just short of the dumbbells touching to keep the upper chest loaded at the top.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Lat pulldown, neutral grip</span><span class="pres">3 × 10–12</span><span class="rest">rest 75s</span>
+      <span class="cue">Long stretch at the top — let the shoulder blade travel up before you pull. Direct carryover to pull-up reps.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Cable lateral raise</span><span class="pres">3 × 12–15</span><span class="rest">rest 75s</span>
+      <span class="cue">Last set to failure. Side delts are the fastest visible width gain on your frame.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Incline dumbbell curl</span><span class="pres">2 × 10–12</span><span class="rest">rest 60s</span>
+      <span class="cue">Elbows behind the torso, full stretch at the bottom.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Overhead cable triceps extension</span><span class="pres">2 × 10–12</span><span class="rest">rest 60s</span>
+      <span class="cue">Stretched position under load beats lockout squeezing for the long head.</span>
+    </div>
+  </div>
+</div>
+
+<!-- TUESDAY -->
+<div id="p-tue" role="tabpanel" hidden>
+  <div class="card">
+    <div class="chead" data-q="power"><span class="lbl"><i class="dot"></i><h3>Tuesday — Jump &amp; Force</h3></span><span class="meta">≈45 MIN · ~55 CONTACTS</span></div>
+    <div class="ex" data-q="mobility">
+      <span class="name">Prep: ankle rocks, hip flow, easy pogos</span><span class="pres">5 min</span>
+      <span class="cue">Run Mobility Bite 3. Never jump cold — this is the session where that matters.</span>
+    </div>
+    <div class="ex" data-q="power">
+      <span class="name">Pogo hops, stiff ankle</span><span class="pres">3 × 10</span><span class="rest">rest 60s</span>
+      <span class="cue">Knees nearly locked, bounce off the forefoot, minimum ground time. You're training Achilles stiffness — the single biggest contributor to a one-leg dunk.</span>
+    </div>
+    <div class="ex" data-q="power">
+      <span class="name">Box jump → wk 5+: depth jump to max vertical</span><span class="pres">4 × 3</span><span class="rest">rest 2:00</span>
+      <span class="cue">Weeks 1–4 box jump, step down every rep. Weeks 5–8 drop from a 12–16" box, hit the ground and leave immediately. Land soft, absorb nothing on the way up.</span>
+    </div>
+    <div class="ex" data-q="power">
+      <span class="name">One-leg approach jump to a target</span><span class="pres">4 × 2</span><span class="rest">rest 2:00</span>
+      <span class="cue">Three-step run-up, penultimate step long and flat, plant tall. Mark a touch target and chase it. Stop the moment you stop reaching it — fatigue here trains slowness.</span>
+    </div>
+    <div class="ex" data-q="power">
+      <span class="name">Trap bar deadlift</span><span class="pres">4 × 3</span><span class="rest">rest 2:30</span>
+      <span class="cue">75–85% and every concentric as fast as you can make it. Bar speed is the whole point — if a set slows visibly, that's your top set for the day.</span>
+    </div>
+    <div class="ex" data-q="tension">
+      <span class="name">Bulgarian split squat</span><span class="pres">2 × 6/leg</span><span class="rest">rest 90s</span>
+      <span class="cue">RPE 7, dumbbells. Single-leg force for a single-leg jumper. Two sets only — this is not a growth exercise here.</span>
+    </div>
+    <div class="ex" data-q="power">
+      <span class="name">Standing calf raise, straight leg</span><span class="pres">3 × 8</span><span class="rest">rest 75s</span>
+      <span class="cue">Heavy, controlled down, fast up, full pause at the bottom. Straight leg targets the gastroc, the one that fires during a jump.</span>
+    </div>
+  </div>
+  <div class="warn">
+    <h3>Stop rules for this session</h3>
+    <p>Cut it in half, or skip it, if any of these are true: your approach jump touch is lower than last week's, your forefoot or Achilles is sore on waking, or you slept under six hours. Plyometrics performed tired make you slower — this is the one session where doing it anyway is worse than not doing it.</p>
+  </div>
+</div>
+
+<!-- WEDNESDAY -->
+<div id="p-wed" role="tabpanel" hidden>
+  <p class="lede">Technique is the entire return on this session. You've never trained swimming, so drills aren't a warm-up for the real work — they are the work.</p>
+  <div class="card">
+    <div class="chead" data-q="aerobic"><span class="lbl"><i class="dot"></i><h3>Wednesday — Swim</h3></span><span class="meta">35 MIN · 1,000–1,400 M</span></div>
+    <div class="ex" data-q="aerobic"><span class="name">Warm-up</span><span class="pres">200 m</span>
+      <span class="cue">Easy freestyle, whatever it looks like. Don't chase pace.</span></div>
+    <div class="ex" data-q="aerobic"><span class="name">Drill set</span><span class="pres">6 × 50 m</span><span class="rest">rest 20s</span>
+      <span class="cue">Alternate catch-up and fingertip drag.</span></div>
+    <div class="ex" data-q="aerobic"><span class="name">Build set</span><span class="pres">8 × 25 m</span><span class="rest">rest 20s</span>
+      <span class="cue">Start easy, finish fast, stop the rep the moment form breaks. Short reps exist so you never practise a bad stroke under fatigue.</span></div>
+    <div class="ex" data-q="aerobic"><span class="name">Continuous swim</span><span class="pres">200 → 400 m</span>
+      <span class="cue">Add 50 m each week. Breathe every three strokes to force both sides.</span></div>
+    <div class="ex" data-q="aerobic"><span class="name">Cool-down</span><span class="pres">100 m</span>
+      <span class="cue">Easy. Then book a handful of technique lessons — at 1× a week, coached feedback beats any extra yardage you could add.</span></div>
+  </div>
+  <p class="note">Add sodium today. Chlorinated pools cost more of it than people expect, and plain water in volume without it is what causes the flat, headachy feeling afterwards.</p>
+</div>
+
+<!-- THURSDAY -->
+<div id="p-thu" role="tabpanel" hidden>
+  <div class="card">
+    <div class="chead" data-q="tension"><span class="lbl"><i class="dot"></i><h3>Thursday — Upper B</h3></span><span class="meta">≈45 MIN</span></div>
+    <div class="ex" data-q="tension">
+      <span class="name">Weighted pull-up</span><span class="pres">4 × 4–6</span><span class="rest">rest 2:30</span>
+      <span class="cue">Start with 10 lb. Dead hang every rep, chin clearly over. Direct driver of the 16-rep goal.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Seated dumbbell shoulder press</span><span class="pres">3 × 8–10</span><span class="rest">rest 90s</span>
+      <span class="cue">Stop at the point the elbows lock — no pause at the top, keep the delts loaded.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Face pull</span><span class="pres">3 × 12–15</span><span class="rest">rest 90s</span>
+      <span class="cue">Rear delts and external rotators. Cheap insurance for benching three times a week.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Dips</span><span class="pres">3 × 8–12</span><span class="rest">rest 90s</span>
+      <span class="cue">Slight forward lean, real stretch at the bottom. Add weight once you clear 12.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Straight-arm pulldown</span><span class="pres">3 × 12–15</span><span class="rest">rest 75s</span>
+      <span class="cue">Lats without the biceps stealing the set — useful after heavy pull-ups.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">EZ-bar curl</span><span class="pres">3 × 8–12</span><span class="rest">rest 60s</span>
+      <span class="cue">No swing. Last set drop the weight 30% and go to failure.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Cable pressdown</span><span class="pres">3 × 10–15</span><span class="rest">rest 60s</span>
+      <span class="cue">Elbows pinned to the ribs.</span>
+    </div>
+  </div>
+</div>
+
+<!-- FRIDAY -->
+<div id="p-fri" role="tabpanel" hidden>
+  <p class="lede">Zone 2 means you can hold a full sentence out loud. If you can't, you're going too hard, and it will show up in Saturday's bench.</p>
+  <div class="card">
+    <div class="chead" data-q="aerobic"><span class="lbl"><i class="dot"></i><h3>Friday — Run</h3></span><span class="meta">30–40 MIN</span></div>
+    <div class="ex" data-q="aerobic">
+      <span class="name">Weeks 1–3</span><span class="pres">30 min</span>
+      <span class="cue">5 min brisk walk, then 5 × (4 min easy jog / 1 min walk) around 11:00–11:30/mi — deliberately slower than your 9:00 mile. Finish with 4 × 15 s relaxed strides.</span>
+    </div>
+    <div class="ex" data-q="aerobic">
+      <span class="name">Weeks 4–6</span><span class="pres">35 min</span>
+      <span class="cue">Continuous 25 min easy, walk breaks only if heart rate drifts above zone 2. 6 × 15 s strides after.</span>
+    </div>
+    <div class="ex" data-q="aerobic">
+      <span class="name">Weeks 7–8</span><span class="pres">40 min</span>
+      <span class="cue">30 min continuous, then 4 × 90 s comfortably hard with 90 s jog between. First real intensity of the block.</span>
+    </div>
+    <div class="ex" data-q="mobility">
+      <span class="name">Every run</span><span class="pres">—</span>
+      <span class="cue">Ghost Max for all of it. Cadence 170–180 to shorten the stride and take load off the forefoot. Jumping the day after a run is why Saturday's plyo volume is only three sets.</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="chead" data-q="tension"><span class="lbl"><i class="dot"></i><h3>Friday — arm &amp; delt block</h3></span><span class="meta">≈20 MIN · OPTIONAL</span></div>
+    <div class="ex pair" data-q="tension"><span class="name">Dumbbell lateral raise</span><span class="pres">3 × 15–20</span><span class="rest">rest 45s</span></div>
+    <div class="ex pair" data-q="tension"><span class="name">Hammer curl</span><span class="pres">3 × 10–12</span><span class="rest">rest 45s</span></div>
+    <div class="ex pair" data-q="tension"><span class="name">Rope overhead extension</span><span class="pres">3 × 12–15</span><span class="rest">rest 45s</span></div>
+    <div class="ex" data-q="tension">
+      <span class="name">Reverse pec deck</span><span class="pres">2 × 15–20</span><span class="rest">rest 45s</span>
+      <span class="cue">Genuinely optional. Skip it in any week you slept badly — nothing here matters more than recovering for Saturday.</span>
+    </div>
+  </div>
+</div>
+
+<!-- SATURDAY -->
+<div id="p-sat" role="tabpanel" hidden>
+  <div class="card">
+    <div class="chead" data-q="power"><span class="lbl"><i class="dot"></i><h3>Saturday — Full body strength</h3></span><span class="meta">≈45 MIN</span></div>
+    <div class="ex" data-q="power">
+      <span class="name">Barbell bench press</span><span class="pres">4 × 3</span><span class="rest">rest 3:00</span>
+      <span class="cue">85%. Heavier and lower-rep than Monday — this is where the road back to 225 gets built. Same weight all four sets, add 5 lb when all four move cleanly.</span>
+    </div>
+    <div class="ex" data-q="power">
+      <span class="name">Front squat or barbell hip thrust</span><span class="pres">3 × 5</span><span class="rest">rest 2:00</span>
+      <span class="cue">Pick one and hold it for the whole block. Front squat if your ankles allow depth without the heels lifting; hip thrust if they don't. Explosive up, controlled down.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Chin-up</span><span class="pres">3 × AMRAP−1</span><span class="rest">rest 90s</span>
+      <span class="cue">Bodyweight, stop one rep before failure. Record total reps weekly — this number is your progress bar.</span>
+    </div>
+    <div class="ex pair" data-q="tension">
+      <span class="name">Standing overhead press</span><span class="pres">3 × 6–8</span><span class="rest">rest 90s</span>
+      <span class="cue">Ribs down, glutes tight, no layback.</span>
+    </div>
+    <div class="ex" data-q="power">
+      <span class="name">Broad jump</span><span class="pres">3 × 3</span><span class="rest">rest 90s</span>
+      <span class="cue">Horizontal force, stick every landing. Low volume on purpose — you already jumped Tuesday.</span>
+    </div>
+    <div class="ex" data-q="tension">
+      <span class="name">Ab wheel or hanging leg raise</span><span class="pres">3 × 8–12</span><span class="rest">rest 60s</span>
+      <span class="cue">Anti-extension. The trunk transmits force from the ground to the rim; it doesn't need to be trained for size.</span>
+    </div>
+  </div>
+</div>
+
+<!-- SUNDAY -->
+<div id="p-sun" role="tabpanel" hidden>
+  <p class="lede">The most droppable session in the week. If you're beat up, take the day off entirely — nothing in the 22-month build depends on any single Sunday ride.</p>
+  <div class="card">
+    <div class="chead" data-q="aerobic"><span class="lbl"><i class="dot"></i><h3>Sunday — Bike, or rest</h3></span><span class="meta">45–70 MIN</span></div>
+    <div class="ex" data-q="aerobic">
+      <span class="name">Steady zone 2</span><span class="pres">45 → 70 min</span>
+      <span class="cue">Add 10 min every second week. Hybrid or road bike, either is fine at this stage. Cadence 85–95 — spinning rather than grinding keeps this a recovery ride instead of a leg session that competes with Tuesday.</span>
+    </div>
+    <div class="ex" data-q="aerobic">
+      <span class="name">Cadence spin-ups</span><span class="pres">4 × 30s</span>
+      <span class="cue">Light gear, cadence above 110, no bouncing in the saddle. Builds pedalling economy long before you need power.</span>
+    </div>
+    <div class="ex" data-q="aerobic">
+      <span class="name">Once rides pass 75 min</span><span class="pres">40–60 g/hr</span>
+      <span class="cue">Start taking carbs on the bike. Practise it now so your gut is trained long before 2028.</span>
+    </div>
+  </div>
+  <p class="note">If Whoop recovery has been red two days running, this is the first thing to drop — then the Friday arm block. Never the jump session or the heavy lower work, because those are the goal.</p>
+</div>
+
+<!-- FUEL -->
+<div id="p-fuel" role="tabpanel" hidden>
+  <div class="shdr"><h2>Fuel</h2><span class="tag">RECOMP AT MAINTENANCE</span></div>
+  <p class="lede">Targets first, then the rules that govern how you move them. Numbers assume ~184 lb and a desk job — a starting point, not a prescription.</p>
+
+  <table class="tbl">
+    <tr><th>DAY TYPE</th><th>KCAL</th><th>PROTEIN</th><th>CARBS</th><th>FAT</th></tr>
+    <tr><td>Hard lift <span class="qual">Mon Tue Thu Sat</span></td><td class="num">3,050</td><td class="num">180 g</td><td class="num">400 g</td><td class="num">75 g</td></tr>
+    <tr><td>Aerobic <span class="qual">Wed Fri</span></td><td class="num">2,950</td><td class="num">180 g</td><td class="num">370 g</td><td class="num">78 g</td></tr>
+    <tr><td>Rest or easy <span class="qual">Sun</span></td><td class="num">2,750</td><td class="num">180 g</td><td class="num">300 g</td><td class="num">80 g</td></tr>
+  </table>
+
+  <h3 style="margin:26px 0 12px">Rules that govern the numbers</h3>
+  <div class="rules">
+    <div class="rule"><span class="k">FLOOR</span><span class="t"><b>Protein never moves.</b> 180 g every day, training or not. If a day falls apart, hit protein and let everything else go — it's the single variable protecting muscle while calories stay flat.</span></div>
+    <div class="rule"><span class="k">LEVER</span><span class="t"><b>Carbs are the only dial.</b> Move them with the day's demand. Fat has a floor around 55 g for hormone production; never raid it to make room for carbs, and never raid protein for either.</span></div>
+    <div class="rule"><span class="k">SPACING</span><span class="t"><b>Four protein feedings, not two.</b> Roughly 40–50 g each across the day. Around 40 g of animal protein clears the leucine threshold that actually triggers the response — smaller, more frequent hits leave stimulus on the table.</span></div>
+    <div class="rule"><span class="k">PROXIMITY</span><span class="t"><b>The closer to training, the smaller and leaner the meal.</b> Fat and fibre slow gastric emptying, which is what makes you feel heavy under the bar. Far out: eat normally. Close in: carbs and protein only.</span></div>
+    <div class="rule"><span class="k">FASTED</span><span class="t"><b>Two sessions are never done under-fuelled: Tuesday and Saturday.</b> Central nervous system output is the entire point of both. Everything else — swim, easy run, easy ride, arm block — is fine fasted if that's what fits your morning.</span></div>
+    <div class="rule"><span class="k">AFTER</span><span class="t"><b>Post-session carbs scale with what you emptied.</b> Heavy lifting or a long ride earns a real refill. An easy swim or a 30-minute jog doesn't. The protein feeding matters either way; the window is hours wide, so don't sprint home.</span></div>
+    <div class="rule"><span class="k">DURING</span><span class="t"><b>Under 75 minutes: water and sodium only.</b> Every session in this block qualifies. Past 75 min, 40–60 g carbs per hour.</span></div>
+    <div class="rule"><span class="k">OVERNIGHT</span><span class="t"><b>End the day on slow protein.</b> Cottage cheese, Greek yoghurt or casein before bed. Overnight is your longest fast and the one place an extra feeding measurably helps.</span></div>
+    <div class="rule"><span class="k">WATER</span><span class="t"><b>3.5–4 L on training days,</b> with added sodium on swim days and any session you finish visibly salty.</span></div>
+    <div class="rule"><span class="k">ADJUST</span><span class="t"><b>Change nothing on less than two weeks of data.</b> Trending above 182 → cut 150 kcal of carbs. Below 176 with a dropping touch → add 200 kcal. Weigh first thing, after the bathroom, before food, and read the weekly average only.</span></div>
+  </div>
+
+  <h3 style="margin:26px 0 12px">Supplements</h3>
+  <table class="tbl">
+    <tr><th>ITEM</th><th>DOSE</th><th>RULE</th></tr>
+    <tr><td>Creatine monohydrate</td><td class="num">5 g</td><td>Daily, rest days included, timing genuinely irrelevant. Consistency is the whole mechanism — saturation takes 3–4 weeks with or without a loading phase. Best-evidenced supplement there is, and unusually well matched to repeated maximal jumps.</td></tr>
+    <tr><td>Vitamin D3</td><td class="num">2,000–4,000 IU</td><td>Take it with whichever meal has the most fat — it's fat-soluble and absorbs poorly without. Maryland winters make deficiency likely, but get a serum level drawn rather than guessing at a dose.</td></tr>
+    <tr><td>Magnesium glycinate</td><td class="num">200–400 mg</td><td>Evening, well clear of training. Glycinate specifically — citrate and oxide are the forms that send people to the bathroom.</td></tr>
+    <tr><td>Caffeine</td><td class="num">200–250 mg</td><td>Spend it where power matters: Tuesday and Saturday, roughly an hour out. Half-life is 5–6 hours, so count back 8–10 hours from bedtime or you'll watch it show up as wrecked deep sleep on Whoop.</td></tr>
+    <tr><td>Whey protein</td><td class="num">25–40 g</td><td>Use it to close the gap to 180 g on a workday. It's food, not a strategy.</td></tr>
+    <tr><td>Electrolytes</td><td class="num">~500 mg sodium</td><td>Any session you finish salty, plus every swim.</td></tr>
+  </table>
+
+  <div class="skip">
+    <h3>What to skip, and why</h3>
+    <ul>
+      <li><b>AG1</b> — an expensive multivitamin built on a proprietary blend, so the doses of most ingredients aren't disclosed. Nothing in it beats vegetables plus the three items above. Your instinct here is right.</li>
+      <li><b>Lustriva</b> — marketed for cognition on thin evidence, none of it training-relevant.</li>
+      <li><b>BCAAs and EAAs</b> — redundant at 180 g of protein a day. They only help someone under-eating protein.</li>
+      <li><b>Beta-alanine</b> — genuinely works, but only for efforts of 60 seconds to four minutes. Your sessions are 3-rep sets and zone 2. Revisit when you add threshold running.</li>
+      <li><b>Pre-workout blends</b> — caffeine at a proprietary-blend markup. Buy caffeine.</li>
+    </ul>
+  </div>
+
+  <div class="warn">
+    <h3>Two things that will confuse your scale</h3>
+    <p>Creatine pulls water into muscle — expect 1–3 lb of scale gain in the first fortnight that is not fat and should not trigger a calorie cut. Separately, a hard lower-body day holds water for 24–48 hours afterwards. Both are why the two-week trend rule exists.</p>
+  </div>
+</div>
+
+<!-- MOBILITY -->
+<div id="p-mobility" role="tabpanel" hidden>
+  <div class="shdr"><h2>Mobility bites</h2><span class="tag">NO KIT · UNDER 6 MIN EACH</span></div>
+  <p class="lede">Ankle and hip come before everything else: ankle dorsiflexion limits both jump depth and running form, and hip flexor length is the first thing an engineering chair takes from you.</p>
+
+  <div class="bite">
+    <h3>Bite 1 — Unlock</h3>
+    <p class="when">ON WAKING · 5 MIN</p>
+    <ol>
+      <li><b>Cat–cow</b> — 10 slow cycles, breathe into the top of the back</li>
+      <li><b>90/90 hip switches</b> — 10 per side, hands off the floor by the last few</li>
+      <li><b>World's greatest stretch</b> — 5 per side, hold the rotation two seconds</li>
+      <li><b>Deep squat hold</b> — 60 s, heels down, elbows pushing the knees out</li>
+    </ol>
+  </div>
+
+  <div class="bite">
+    <h3>Bite 2 — Desk reset</h3>
+    <p class="when">EVERY 2–3 HOURS AT THE DESK · 4 MIN</p>
+    <ol>
+      <li><b>Doorway pec stretch</b> — 30 s per arm at three heights</li>
+      <li><b>Thoracic wall rotation</b> — 8 per side, hips square to the wall</li>
+      <li><b>Couch stretch against the chair</b> — 45 s per side, glute squeezed</li>
+      <li><b>Chin tucks</b> — 10 slow, hold 3 s each</li>
+    </ol>
+  </div>
+
+  <div class="bite">
+    <h3>Bite 3 — Ankle prep</h3>
+    <p class="when">BEFORE TUESDAY, SATURDAY AND EVERY RUN · 5 MIN</p>
+    <ol>
+      <li><b>Knee-to-wall ankle rocks</b> — 15 per side. Measure it: aim for 5 inches of toe-to-wall clearance with the heel down</li>
+      <li><b>Calf raise off a step</b> — 15 slow, full stretch at the bottom</li>
+      <li><b>ATG split squat, bodyweight</b> — 8 per side</li>
+      <li><b>Hip flexor stretch</b> — 45 s per side</li>
+      <li><b>Pogo primers</b> — 2 × 10 tiny bounces, then you're ready to jump</li>
+    </ol>
+  </div>
+
+  <div class="bite">
+    <h3>Bite 4 — Decompress</h3>
+    <p class="when">EVENING · 6 MIN</p>
+    <ol>
+      <li><b>Dead hang</b> — 3 × 30 s. Doubles as pull-up grip and shoulder decompression</li>
+      <li><b>90/90 breathing on the floor</b> — 8 breaths, feet on a wall or couch</li>
+      <li><b>Standing hamstring floss</b> — 10 per side</li>
+      <li><b>Frog or pigeon</b> — 90 s, whichever your hips ask for</li>
+    </ol>
+  </div>
+</div>
+
+<!-- PROGRESSION -->
+<div id="p-prog" role="tabpanel" hidden>
+  <div class="shdr"><h2>Progression</h2><span class="tag">WEEK 1 → 8</span></div>
+  <table class="tbl">
+    <tr><th>LIFT TYPE</th><th>HOW TO ADD</th></tr>
+    <tr><td>Bench, trap bar, front squat</td><td>Same weight all sets. When every set hits the top of the rep range cleanly, add 5 lb upper / 10 lb lower next week.</td></tr>
+    <tr><td>Weighted pull-up</td><td>Add 5 lb once you clear 4 × 6. Retest max strict reps at week 4 and week 8 only.</td></tr>
+    <tr><td>Hypertrophy work</td><td>Double progression. Add a rep each week within range, then add weight and restart at the bottom of the range.</td></tr>
+    <tr><td>Plyometrics</td><td>Never progressed by adding sets. Progressed by intent, and by moving from box jumps to depth jumps at week 5. Cap stays ~55 contacts.</td></tr>
+    <tr><td>Run and bike</td><td>Duration only. No pace targets for eight weeks.</td></tr>
+    <tr><td>Swim</td><td>+50 m on the continuous swim each week. Drills stay constant.</td></tr>
+  </table>
+
+  <div class="warn">
+    <h3>Stop rules</h3>
+    <p>Cut the jump session in half, or skip it, if any of these are true: your approach jump touch is lower than last week's, your forefoot or Achilles is sore on waking, or you slept under six hours. Plyometrics performed tired make you slower.</p>
+  </div>
+
+  <p class="note">Retest at week 8: bench 3RM, max strict pull-ups, standing reach touch, and bodyweight under identical conditions each time. If bodyweight has drifted below 176 and the touch has dropped with it, you're eating too little — add food, not sessions.</p>
+</div>
+
+</div><!-- /panels -->
+
+<footer>8-WEEK BLOCK · REASSESS AT WEEK 9 · A PLAN, NOT A CONTRACT</footer>
+</div>
+</div>
+
+<script>
+(function(){
+  var dayPanels=['p-mon','p-tue','p-wed','p-thu','p-fri','p-sat','p-sun'];
+  var tabs=[].slice.call(document.querySelectorAll('[role="tab"]'));
+  var panels=[].slice.call(document.querySelectorAll('[role="tabpanel"]'));
+  var legend=document.getElementById('legend');
+  var container=document.getElementById('panels');
+  var map=[6,0,1,2,3,4,5]; // Sun=0 → index 6
+  var todayIdx=map[new Date().getDay()];
+
+  function show(id,scroll){
+    panels.forEach(function(p){p.hidden = p.id!==id;});
+    tabs.forEach(function(t){t.setAttribute('aria-selected', t.dataset.panel===id ? 'true':'false');});
+    legend.style.display = dayPanels.indexOf(id)>-1 ? 'flex' : 'none';
+    if(scroll && container.getBoundingClientRect().top < 0){
+      container.scrollIntoView({block:'start'});
+    }
+  }
+
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){show(t.dataset.panel,true);});
+  });
+
+  // mark today with a dot, and open on it
+  var dayTabs=tabs.filter(function(t){return dayPanels.indexOf(t.dataset.panel)>-1;});
+  var dot=document.createElement('i');
+  dot.className='today';
+  dot.title='Today';
+  dayTabs[todayIdx].appendChild(dot);
+  show(dayPanels[todayIdx],false);
+
+  // keep the selected day visible in the scrolling strip
+  dayTabs[todayIdx].scrollIntoView({block:'nearest',inline:'center'});
+})();
+</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
