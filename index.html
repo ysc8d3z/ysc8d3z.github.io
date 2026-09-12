@@ -136,6 +136,8 @@ h3{font-size:1rem;font-weight:600;letter-spacing:-.01em}
 .tbl td:first-child{font-weight:600;color:var(--ink)}
 .tbl td.num{white-space:nowrap;color:var(--ink)}
 .tbl td .qual{color:var(--dim);font-weight:400}
+.tbl tr.total td{background:var(--surface-2);font-weight:700;color:var(--ink);
+  border-top:1px solid var(--line)}
 
 /* ---------- rules ---------- */
 .rules{border:1px solid var(--line);border-radius:5px;background:var(--surface);overflow:hidden}
@@ -146,6 +148,28 @@ h3{font-size:1rem;font-weight:600;letter-spacing:-.01em}
   letter-spacing:.08em;padding-top:3px;white-space:nowrap}
 .rule .t{font-size:.87rem;line-height:1.6}
 .rule .t b{font-weight:600}
+
+/* ---------- meals ---------- */
+.meal{background:var(--surface);border:1px solid var(--line);border-radius:5px;
+  margin-bottom:12px;overflow:hidden}
+.mhead{padding:11px 14px;border-bottom:1px solid var(--line);background:var(--surface-2);
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.mhead h3{font-size:.95rem}
+.macro{font-family:'JetBrains Mono',monospace;font-size:.71rem;color:var(--dim);
+  white-space:nowrap;font-variant-numeric:tabular-nums}
+.macro b{color:var(--tension);font-weight:700}
+.mbody{padding:12px 14px;font-size:.85rem;color:#B7C1C3;line-height:1.6}
+.mbody ul{margin:0;padding-left:16px}
+.mbody li{margin-bottom:3px}
+.mbody li:last-child{margin-bottom:0}
+.mnote{margin-top:9px;padding-top:9px;border-top:1px solid var(--line-soft);
+  font-size:.79rem;color:var(--dim)}
+.callout{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--fuel);
+  border-radius:0 5px 5px 0;padding:13px 15px;font-size:.85rem;color:#B7C1C3;
+  line-height:1.65;margin-top:16px}
+.callout h3{margin-bottom:6px;color:var(--ink)}
+#p-meals .msec{margin-bottom:34px}
+#p-meals .msec:last-child{margin-bottom:0}
 
 /* ---------- bites ---------- */
 .bite{background:var(--surface);border:1px solid var(--line);border-radius:5px;
@@ -189,7 +213,7 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
     <div class="stat"><b>176–180</b><span>target lb</span></div>
     <div class="stat"><b>4 + 3</b><span>lifts + aerobic</span></div>
     <div class="stat"><b>45 min</b><span>session cap</span></div>
-    <div class="stat"><b>180 g</b><span>protein daily</span></div>
+    <div class="stat"><b>160 g</b><span>protein daily</span></div>
   </div>
 </header>
 
@@ -199,12 +223,13 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
     <button class="day" role="tab" data-panel="p-tue"><span class="dn">TUE</span><span class="dt">Jump &amp; Force</span></button>
     <button class="day" role="tab" data-panel="p-wed"><span class="dn">WED</span><span class="dt">Swim</span></button>
     <button class="day" role="tab" data-panel="p-thu"><span class="dn">THU</span><span class="dt">Upper B</span></button>
-    <button class="day" role="tab" data-panel="p-fri"><span class="dn">FRI</span><span class="dt">Run + arms</span></button>
+    <button class="day" role="tab" data-panel="p-fri"><span class="dn">FRI</span><span class="dt">Bike / off</span></button>
     <button class="day" role="tab" data-panel="p-sat"><span class="dn">SAT</span><span class="dt">Full body</span></button>
-    <button class="day" role="tab" data-panel="p-sun"><span class="dn">SUN</span><span class="dt">Bike / off</span></button>
+    <button class="day" role="tab" data-panel="p-sun"><span class="dn">SUN</span><span class="dt">Run + arms</span></button>
   </div>
   <div class="subtabs" role="tablist" aria-label="Reference">
     <button class="subtab" role="tab" data-panel="p-fuel">FUEL</button>
+    <button class="subtab" role="tab" data-panel="p-meals">MEALS</button>
     <button class="subtab" role="tab" data-panel="p-mobility">MOBILITY</button>
     <button class="subtab" role="tab" data-panel="p-prog">PROGRESSION</button>
   </div>
@@ -349,36 +374,23 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 
 <!-- FRIDAY -->
 <div id="p-fri" role="tabpanel" hidden>
-  <p class="lede">Zone 2 means you can hold a full sentence out loud. If you can't, you're going too hard, and it will show up in Saturday's bench.</p>
+  <p class="lede">Easy is the point. This ride exists to add aerobic minutes without taking anything out of Saturday's legs — spin it, don't push it.</p>
   <div class="card">
-    <div class="chead" data-q="aerobic"><span class="lbl"><i class="dot"></i><h3>Friday — Run</h3></span><span class="meta">30–40 MIN</span></div>
+    <div class="chead" data-q="aerobic"><span class="lbl"><i class="dot"></i><h3>Friday — Bike, or rest</h3></span><span class="meta">45–70 MIN</span></div>
     <div class="ex" data-q="aerobic">
-      <span class="name">Weeks 1–3</span><span class="pres">30 min</span>
-      <span class="cue">5 min brisk walk, then 5 × (4 min easy jog / 1 min walk) around 11:00–11:30/mi — deliberately slower than your 9:00 mile. Finish with 4 × 15 s relaxed strides.</span>
+      <span class="name">Steady zone 2</span><span class="pres">45 → 70 min</span>
+      <span class="cue">Add 10 min every second week. Hybrid or road bike, either is fine at this stage. Cadence 85–95 — spinning rather than grinding keeps this a recovery ride instead of a leg session that competes with Saturday's front squats.</span>
     </div>
     <div class="ex" data-q="aerobic">
-      <span class="name">Weeks 4–6</span><span class="pres">35 min</span>
-      <span class="cue">Continuous 25 min easy, walk breaks only if heart rate drifts above zone 2. 6 × 15 s strides after.</span>
+      <span class="name">Cadence spin-ups</span><span class="pres">4 × 30s</span>
+      <span class="cue">Light gear, cadence above 110, no bouncing in the saddle. Builds pedalling economy long before you need power.</span>
     </div>
     <div class="ex" data-q="aerobic">
-      <span class="name">Weeks 7–8</span><span class="pres">40 min</span>
-      <span class="cue">30 min continuous, then 4 × 90 s comfortably hard with 90 s jog between. First real intensity of the block.</span>
-    </div>
-    <div class="ex" data-q="mobility">
-      <span class="name">Every run</span><span class="pres">—</span>
-      <span class="cue">Ghost Max for all of it. Cadence 170–180 to shorten the stride and take load off the forefoot. Jumping the day after a run is why Saturday's plyo volume is only three sets.</span>
+      <span class="name">Once rides pass 75 min</span><span class="pres">40–60 g/hr</span>
+      <span class="cue">Start taking carbs on the bike. Practise it now so your gut is trained long before 2028.</span>
     </div>
   </div>
-  <div class="card">
-    <div class="chead" data-q="tension"><span class="lbl"><i class="dot"></i><h3>Friday — arm &amp; delt block</h3></span><span class="meta">≈20 MIN · OPTIONAL</span></div>
-    <div class="ex pair" data-q="tension"><span class="name">Dumbbell lateral raise</span><span class="pres">3 × 15–20</span><span class="rest">rest 45s</span></div>
-    <div class="ex pair" data-q="tension"><span class="name">Hammer curl</span><span class="pres">3 × 10–12</span><span class="rest">rest 45s</span></div>
-    <div class="ex pair" data-q="tension"><span class="name">Rope overhead extension</span><span class="pres">3 × 12–15</span><span class="rest">rest 45s</span></div>
-    <div class="ex" data-q="tension">
-      <span class="name">Reverse pec deck</span><span class="pres">2 × 15–20</span><span class="rest">rest 45s</span>
-      <span class="cue">Genuinely optional. Skip it in any week you slept badly — nothing here matters more than recovering for Saturday.</span>
-    </div>
-  </div>
+  <p class="note">The most droppable session in the week. If Whoop recovery has been red two days running, this is the first thing to go — then Sunday's arm block. Never the jump session or the heavy lower work, because those are the goal. Nothing in the 22-month build depends on any single ride.</p>
 </div>
 
 <!-- SATURDAY -->
@@ -414,50 +426,73 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 
 <!-- SUNDAY -->
 <div id="p-sun" role="tabpanel" hidden>
-  <p class="lede">The most droppable session in the week. If you're beat up, take the day off entirely — nothing in the 22-month build depends on any single Sunday ride.</p>
+  <p class="lede">Zone 2 means you can hold a full sentence out loud. Running with someone else enforces that better than a watch does — if the conversation stops, you're going too hard.</p>
   <div class="card">
-    <div class="chead" data-q="aerobic"><span class="lbl"><i class="dot"></i><h3>Sunday — Bike, or rest</h3></span><span class="meta">45–70 MIN</span></div>
+    <div class="chead" data-q="aerobic"><span class="lbl"><i class="dot"></i><h3>Sunday — Run</h3></span><span class="meta">30–40 MIN</span></div>
     <div class="ex" data-q="aerobic">
-      <span class="name">Steady zone 2</span><span class="pres">45 → 70 min</span>
-      <span class="cue">Add 10 min every second week. Hybrid or road bike, either is fine at this stage. Cadence 85–95 — spinning rather than grinding keeps this a recovery ride instead of a leg session that competes with Tuesday.</span>
+      <span class="name">Weeks 1–3</span><span class="pres">30 min</span>
+      <span class="cue">5 min brisk walk, then 5 × (4 min easy jog / 1 min walk) around 11:00–11:30/mi — deliberately slower than your 9:00 mile. Finish with 4 × 15 s relaxed strides.</span>
     </div>
     <div class="ex" data-q="aerobic">
-      <span class="name">Cadence spin-ups</span><span class="pres">4 × 30s</span>
-      <span class="cue">Light gear, cadence above 110, no bouncing in the saddle. Builds pedalling economy long before you need power.</span>
+      <span class="name">Weeks 4–6</span><span class="pres">35 min</span>
+      <span class="cue">Continuous 25 min easy, walk breaks only if heart rate drifts above zone 2. 6 × 15 s strides after.</span>
     </div>
     <div class="ex" data-q="aerobic">
-      <span class="name">Once rides pass 75 min</span><span class="pres">40–60 g/hr</span>
-      <span class="cue">Start taking carbs on the bike. Practise it now so your gut is trained long before 2028.</span>
+      <span class="name">Weeks 7–8</span><span class="pres">40 min</span>
+      <span class="cue">30 min continuous, then 4 × 90 s comfortably hard with 90 s jog between. First real intensity of the block.</span>
+    </div>
+    <div class="ex" data-q="mobility">
+      <span class="name">Every run</span><span class="pres">—</span>
+      <span class="cue">Ghost Max for all of it. Cadence 170–180 to shorten the stride and take load off the forefoot. You're running the morning after Saturday's broad jumps, so expect a stiff first mile — walk it in rather than forcing the pace down.</span>
     </div>
   </div>
-  <p class="note">If Whoop recovery has been red two days running, this is the first thing to drop — then the Friday arm block. Never the jump session or the heavy lower work, because those are the goal.</p>
+  <div class="card">
+    <div class="chead" data-q="tension"><span class="lbl"><i class="dot"></i><h3>Sunday — arm &amp; delt block</h3></span><span class="meta">≈20 MIN · OPTIONAL</span></div>
+    <div class="ex pair" data-q="tension"><span class="name">Dumbbell lateral raise</span><span class="pres">3 × 15–20</span><span class="rest">rest 45s</span></div>
+    <div class="ex pair" data-q="tension"><span class="name">Hammer curl</span><span class="pres">3 × 10–12</span><span class="rest">rest 45s</span></div>
+    <div class="ex pair" data-q="tension"><span class="name">Rope overhead extension</span><span class="pres">3 × 12–15</span><span class="rest">rest 45s</span></div>
+    <div class="ex" data-q="tension">
+      <span class="name">Reverse pec deck</span><span class="pres">2 × 15–20</span><span class="rest">rest 45s</span>
+      <span class="cue">Genuinely optional, and it can be done any time of day — it doesn't have to attach to the run. Skip it in any week you slept badly; nothing here matters more than arriving fresh for Monday's bench.</span>
+    </div>
+  </div>
 </div>
 
 <!-- FUEL -->
 <div id="p-fuel" role="tabpanel" hidden>
   <div class="shdr"><h2>Fuel</h2><span class="tag">RECOMP AT MAINTENANCE</span></div>
-  <p class="lede">Targets first, then the rules that govern how you move them. Numbers assume ~184 lb and a desk job — a starting point, not a prescription.</p>
+  <p class="lede">One target, every day. Separate day-type numbers were more precision than the underlying estimate deserves, and a single figure is far easier to actually hit. Assumes ~184 lb and a desk job.</p>
 
   <table class="tbl">
-    <tr><th>DAY TYPE</th><th>KCAL</th><th>PROTEIN</th><th>CARBS</th><th>FAT</th></tr>
-    <tr><td>Hard lift <span class="qual">Mon Tue Thu Sat</span></td><td class="num">3,050</td><td class="num">180 g</td><td class="num">400 g</td><td class="num">75 g</td></tr>
-    <tr><td>Aerobic <span class="qual">Wed Fri</span></td><td class="num">2,950</td><td class="num">180 g</td><td class="num">370 g</td><td class="num">78 g</td></tr>
-    <tr><td>Rest or easy <span class="qual">Sun</span></td><td class="num">2,750</td><td class="num">180 g</td><td class="num">300 g</td><td class="num">80 g</td></tr>
+    <tr><th>DAILY TARGET</th><th>KCAL</th><th>PROTEIN</th><th>CARBS</th><th>FAT</th></tr>
+    <tr><td>Every day <span class="qual">training or not</span></td><td class="num">2,740</td><td class="num">160 g</td><td class="num">360 g</td><td class="num">73 g</td></tr>
   </table>
+
+  <p class="note">This sits deliberately between Cronometer's estimate and a full activity-adjusted maintenance figure, because neither is more than a guess until four weeks of weigh-ins test it. Expect maintenance to <b>rise</b> across the block, not fall — the bike goes 45 → 70 min, the runs go 30 → 40 min, and training loads climb. That's another 150–200 kcal of daily demand by week 8.</p>
 
   <h3 style="margin:26px 0 12px">Rules that govern the numbers</h3>
   <div class="rules">
-    <div class="rule"><span class="k">FLOOR</span><span class="t"><b>Protein never moves.</b> 180 g every day, training or not. If a day falls apart, hit protein and let everything else go — it's the single variable protecting muscle while calories stay flat.</span></div>
+    <div class="rule"><span class="k">FLOOR</span><span class="t"><b>Protein never moves.</b> 160 g every day, training or not. If a day falls apart, hit protein and let everything else go — it's the single variable protecting muscle while calories stay flat.</span></div>
     <div class="rule"><span class="k">LEVER</span><span class="t"><b>Carbs are the only dial.</b> Move them with the day's demand. Fat has a floor around 55 g for hormone production; never raid it to make room for carbs, and never raid protein for either.</span></div>
-    <div class="rule"><span class="k">SPACING</span><span class="t"><b>Four protein feedings, not two.</b> Roughly 40–50 g each across the day. Around 40 g of animal protein clears the leucine threshold that actually triggers the response — smaller, more frequent hits leave stimulus on the table.</span></div>
+    <div class="rule"><span class="k">SPACING</span><span class="t"><b>Four protein feedings, not two.</b> 160 ÷ 4 is 40 g a feeding, which is about where animal protein clears the leucine threshold that actually triggers the response. Smaller, more frequent hits leave stimulus on the table.</span></div>
     <div class="rule"><span class="k">PROXIMITY</span><span class="t"><b>The closer to training, the smaller and leaner the meal.</b> Fat and fibre slow gastric emptying, which is what makes you feel heavy under the bar. Far out: eat normally. Close in: carbs and protein only.</span></div>
     <div class="rule"><span class="k">FASTED</span><span class="t"><b>Two sessions are never done under-fuelled: Tuesday and Saturday.</b> Central nervous system output is the entire point of both. Everything else — swim, easy run, easy ride, arm block — is fine fasted if that's what fits your morning.</span></div>
     <div class="rule"><span class="k">AFTER</span><span class="t"><b>Post-session carbs scale with what you emptied.</b> Heavy lifting or a long ride earns a real refill. An easy swim or a 30-minute jog doesn't. The protein feeding matters either way; the window is hours wide, so don't sprint home.</span></div>
     <div class="rule"><span class="k">DURING</span><span class="t"><b>Under 75 minutes: water and sodium only.</b> Every session in this block qualifies. Past 75 min, 40–60 g carbs per hour.</span></div>
     <div class="rule"><span class="k">OVERNIGHT</span><span class="t"><b>End the day on slow protein.</b> Cottage cheese, Greek yoghurt or casein before bed. Overnight is your longest fast and the one place an extra feeding measurably helps.</span></div>
     <div class="rule"><span class="k">WATER</span><span class="t"><b>3.5–4 L on training days,</b> with added sodium on swim days and any session you finish visibly salty.</span></div>
-    <div class="rule"><span class="k">ADJUST</span><span class="t"><b>Change nothing on less than two weeks of data.</b> Trending above 182 → cut 150 kcal of carbs. Below 176 with a dropping touch → add 200 kcal. Weigh first thing, after the bathroom, before food, and read the weekly average only.</span></div>
+    <div class="rule"><span class="k">ADJUST</span><span class="t"><b>Change nothing for four weeks.</b> The target is a hypothesis and your weekly average is the test; adjusting sooner means reacting to water weight, and creatine alone will muddy the first fortnight. Weigh first thing, after the bathroom, before food, and read the weekly average only.</span></div>
   </div>
+
+  <h3 style="margin:26px 0 12px">The week-4 decision</h3>
+  <table class="tbl">
+    <tr><th>WHAT YOU SEE</th><th>WHAT TO DO</th></tr>
+    <tr><td>Weight flat ±1 lb, lifts progressing</td><td>Nothing. You found maintenance.</td></tr>
+    <tr><td>Up more than 2 lb, waistband tighter</td><td>Cut 150 kcal of carbs, down to ~325 g.</td></tr>
+    <tr><td>Below 178 and lifts stalling</td><td>Add 200 kcal of carbs, up to ~410 g.</td></tr>
+    <tr><td>Weight flat, lifts stalling, sleep fine</td><td>Don't touch food. That's programming or recovery.</td></tr>
+  </table>
+  <p class="note">The last row is the one people get wrong — they feed a problem that isn't hunger.</p>
 
   <h3 style="margin:26px 0 12px">Supplements</h3>
   <table class="tbl">
@@ -466,7 +501,7 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
     <tr><td>Vitamin D3</td><td class="num">2,000–4,000 IU</td><td>Take it with whichever meal has the most fat — it's fat-soluble and absorbs poorly without. Maryland winters make deficiency likely, but get a serum level drawn rather than guessing at a dose.</td></tr>
     <tr><td>Magnesium glycinate</td><td class="num">200–400 mg</td><td>Evening, well clear of training. Glycinate specifically — citrate and oxide are the forms that send people to the bathroom.</td></tr>
     <tr><td>Caffeine</td><td class="num">200–250 mg</td><td>Spend it where power matters: Tuesday and Saturday, roughly an hour out. Half-life is 5–6 hours, so count back 8–10 hours from bedtime or you'll watch it show up as wrecked deep sleep on Whoop.</td></tr>
-    <tr><td>Whey protein</td><td class="num">25–40 g</td><td>Use it to close the gap to 180 g on a workday. It's food, not a strategy.</td></tr>
+    <tr><td>Whey protein</td><td class="num">25–40 g</td><td>Use it to close the gap to 160 g on a workday. It's food, not a strategy.</td></tr>
     <tr><td>Electrolytes</td><td class="num">~500 mg sodium</td><td>Any session you finish salty, plus every swim.</td></tr>
   </table>
 
@@ -475,7 +510,7 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
     <ul>
       <li><b>AG1</b> — an expensive multivitamin built on a proprietary blend, so the doses of most ingredients aren't disclosed. Nothing in it beats vegetables plus the three items above. Your instinct here is right.</li>
       <li><b>Lustriva</b> — marketed for cognition on thin evidence, none of it training-relevant.</li>
-      <li><b>BCAAs and EAAs</b> — redundant at 180 g of protein a day. They only help someone under-eating protein.</li>
+      <li><b>BCAAs and EAAs</b> — redundant at 160 g of protein a day. They only help someone under-eating protein.</li>
       <li><b>Beta-alanine</b> — genuinely works, but only for efforts of 60 seconds to four minutes. Your sessions are 3-rep sets and zone 2. Revisit when you add threshold running.</li>
       <li><b>Pre-workout blends</b> — caffeine at a proprietary-blend markup. Buy caffeine.</li>
     </ul>
@@ -483,8 +518,282 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 
   <div class="warn">
     <h3>Two things that will confuse your scale</h3>
-    <p>Creatine pulls water into muscle — expect 1–3 lb of scale gain in the first fortnight that is not fat and should not trigger a calorie cut. Separately, a hard lower-body day holds water for 24–48 hours afterwards. Both are why the two-week trend rule exists.</p>
+    <p>Creatine pulls water into muscle — expect 1–3 lb of scale gain in the first fortnight that is not fat and should not trigger a calorie cut. Separately, a hard lower-body day holds water for 24–48 hours afterwards. Both are why the four-week trend rule exists.</p>
   </div>
+</div>
+
+<!-- MEALS -->
+<div id="p-meals" role="tabpanel" hidden>
+  <p class="lede">A structure and a bank of components, not a menu. Build days by picking one item per slot — the macros land automatically.</p>
+  <div class="stats" style="margin-top:0;margin-bottom:30px">
+    <div class="stat"><b>160 g</b><span>protein</span></div>
+    <div class="stat"><b>360 g</b><span>carbs</span></div>
+    <div class="stat"><b>73 g</b><span>fat</span></div>
+    <div class="stat"><b>~2,740</b><span>kcal</span></div>
+  </div>
+<!-- STRUCTURE -->
+<div class="msec">
+  <div class="shdr"><h2>The structure</h2><span class="tag">4 ANCHORS + 2 FLEX</span></div>
+  <p class="lede">Four protein anchors of ~40 g, spaced roughly 3–4 hours apart, plus two flexible slots that exist to move carbs toward training. No clock times — the slots float with your day.</p>
+  <table class="tbl">
+    <tr><th>SLOT</th><th>PROTEIN</th><th>CARBS</th><th>FAT</th><th>ROLE</th></tr>
+    <tr><td>Anchor 1</td><td class="num">40 g</td><td class="num">90 g</td><td class="num">16 g</td><td>First meal. Big carbs, easy to make.</td></tr>
+    <tr><td>Anchor 2</td><td class="num">40 g</td><td class="num">95 g</td><td class="num">19 g</td><td>The main cooked meal.</td></tr>
+    <tr><td>Flex A</td><td class="num">5 g</td><td class="num">60 g</td><td class="num">12 g</td><td>Pre-training carbs. Skip on rest days.</td></tr>
+    <tr><td>Flex B</td><td class="num">20 g</td><td class="num">50 g</td><td class="num">8 g</td><td>Post-training. Liquid is fine.</td></tr>
+    <tr><td>Anchor 3</td><td class="num">40 g</td><td class="num">45 g</td><td class="num">18 g</td><td>Evening meal.</td></tr>
+    <tr class="total"><td>Total</td><td class="num">145 g</td><td class="num">340 g</td><td class="num">73 g</td><td>Anchor 4 closes the gap →</td></tr>
+  </table>
+  <p class="note">Anchor 4 is the pre-bed slow-protein feeding, and it's also your correction slot: whatever you're short at the end of the day gets closed there. Some nights that's a full yogurt bowl, some nights it's a scoop of whey.</p>
+</div>
+
+<!-- RULES -->
+<div class="msec">
+  <div class="shdr"><h2>Rules</h2><span class="tag">ADHERENCE &gt; PRECISION</span></div>
+  <div class="rules">
+    <div class="rule"><span class="k">ORDER</span><span class="t"><b>Build every meal protein-first.</b> Pick the protein, then fill the rest of the plate with carbs to taste. Protein is the macro you'll miss if you leave it to chance; carbs are the one you'll never struggle to hit.</span></div>
+    <div class="rule"><span class="k">REPEAT</span><span class="t"><b>Eat the same 3 breakfasts and 3 lunches.</b> Variety is a tax on adherence, and at 2,740 kcal you're eating a lot of food. Save novelty for dinner, which you're cooking anyway.</span></div>
+    <div class="rule"><span class="k">CLUSTER</span><span class="t"><b>Carbs move toward training, fat moves away from it.</b> The meal before a session is rice, bread or fruit with lean protein. The meal furthest from training is where the nuts, oil and egg yolks go.</span></div>
+    <div class="rule"><span class="k">BULK</span><span class="t"><b>Cook protein twice a week, carbs fresh.</b> Two batches of 1.5 kg chicken or beef on Sunday and Wednesday covers every lunch. Rice and potatoes take 20 minutes and taste far better not reheated — don't batch them.</span></div>
+    <div class="rule"><span class="k">LIQUID</span><span class="t"><b>Drinks are the release valve, not the plan.</b> On a day you're 400 kcal short at 9 p.m., milk and whey close it without a fight. On a normal day, chew your calories — solid food handles fullness better and you have a lot to get through.</span></div>
+    <div class="rule"><span class="k">SHORTFALL</span><span class="t"><b>If you can only fix one macro, fix protein.</b> Missing 40 g of carbs is a rounding error across a week. Missing 40 g of protein repeatedly is the thing that costs you tissue.</span></div>
+    <div class="rule"><span class="k">OUT</span><span class="t"><b>Restaurant rule: double the protein, ask for extra rice or bread, skip anything fried.</b> Two orders of grilled meat over one is the single highest-leverage move on any menu — the carbs will take care of themselves.</span></div>
+    <div class="rule"><span class="k">WEEKEND</span><span class="t"><b>Saturday and Sunday are 29% of your week.</b> Most people build a solid weekday pattern and then erase the weekly average across two days. You don't need to log them perfectly — you do need them to look roughly like a weekday.</span></div>
+    <div class="rule"><span class="k">FLOOR</span><span class="t"><b>Never let fat drop below 55 g</b> chasing a carb number, and never let a shortfall come out of protein. Carbs absorb all the variance.</span></div>
+  </div>
+</div>
+
+<!-- ANCHOR MEALS -->
+<div class="msec">
+  <div class="shdr"><h2>Anchor meals</h2><span class="tag">~40 G PROTEIN EACH</span></div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Oats &amp; whey bowl</h3><span class="macro"><b>42P</b> · 99C · 16F · 690</span></div>
+    <div class="mbody">
+      <ul>
+        <li>100 g dry oats, cooked or overnight</li>
+        <li>1 scoop whey stirred in after cooking</li>
+        <li>1 banana, sliced</li>
+        <li>1 tbsp honey, 15 g peanut butter</li>
+      </ul>
+      <p class="mnote">Fastest 100 g of carbs in the kitchen. Stir whey in off the heat or it goes grainy.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Chicken &amp; rice bowl</h3><span class="macro"><b>46P</b> · 95C · 19F · 780</span></div>
+    <div class="mbody">
+      <ul>
+        <li>170 g chicken breast, seasoned heavily</li>
+        <li>2 cups cooked rice</li>
+        <li>1 tbsp olive oil, lemon</li>
+        <li>Cucumber-tomato salad, yogurt-garlic sauce</li>
+      </ul>
+      <p class="mnote">The workhorse. Swap chicken for 170 g beef or lamb and drop the oil to keep fat level.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Shakshuka &amp; pita</h3><span class="macro"><b>48P</b> · 80C · 22F · 710</span></div>
+    <div class="mbody">
+      <ul>
+        <li>3 whole eggs + 5 whites, poached in the sauce</li>
+        <li>Tomato, pepper, onion, cumin, 1 tsp oil</li>
+        <li>2 pita for scooping</li>
+        <li>Feta crumbled over</li>
+      </ul>
+      <p class="mnote">The extra whites are what make it hit 48 g. Three whole eggs alone gets you to 18.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Beef &amp; potatoes</h3><span class="macro"><b>41P</b> · 72C · 17F · 610</span></div>
+    <div class="mbody">
+      <ul>
+        <li>150 g cooked 93/7 ground beef</li>
+        <li>400 g roasted potatoes</li>
+        <li>Big green salad, vinegar dressing</li>
+      </ul>
+      <p class="mnote">Lowest-carb anchor here — pair it with a higher-carb flex slot, or add bread.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Salmon &amp; couscous</h3><span class="macro"><b>44P</b> · 70C · 19F · 620</span></div>
+    <div class="mbody">
+      <ul>
+        <li>170 g salmon, roasted 12 min</li>
+        <li>1.5 cups cooked couscous with herbs</li>
+        <li>Roasted vegetables, lemon</li>
+      </ul>
+      <p class="mnote">Twice a week covers omega-3 without a supplement. Fat here is the useful kind — count it, don't avoid it.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Lentil curry &amp; rice</h3><span class="macro"><b>38P</b> · 110C · 16F · 720</span></div>
+    <div class="mbody">
+      <ul>
+        <li>1.5 cups cooked lentils or chana</li>
+        <li>2 cups cooked rice</li>
+        <li>200 g Greek yogurt on the side</li>
+      </ul>
+      <p class="mnote">Meatless days work, but only with the yogurt. Lentils alone leave this around 22 g.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Yogurt bowl <span style="color:var(--dim);font-weight:400">— Anchor 4</span></h3><span class="macro"><b>40P</b> · 41C · 19F · 480</span></div>
+    <div class="mbody">
+      <ul>
+        <li>300 g Greek yogurt, 2%</li>
+        <li>½ scoop whey or casein stirred through</li>
+        <li>1 tbsp honey, 100 g berries</li>
+        <li>20 g almonds</li>
+      </ul>
+      <p class="mnote">The pre-bed slot. Adjust the whey up or down to close whatever gap the day left.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SNACKS -->
+<div class="msec">
+  <div class="shdr"><h2>Flex slots &amp; snacks</h2><span class="tag">PICK BY JOB</span></div>
+  <table class="tbl">
+    <tr><th>ITEM</th><th>P / C / F</th><th>BEST FOR</th></tr>
+    <tr><td>5 dates + 20 g almonds</td><td class="num">5 / 65 / 12</td><td>Pre-lift carbs, 60–90 min out. Zero prep, travels in a gym bag.</td></tr>
+    <tr><td>500 ml chocolate milk</td><td class="num">17 / 52 / 8</td><td>Post-lift. Close to an ideal recovery ratio and cheaper than anything marketed for it.</td></tr>
+    <tr><td>Whey in 300 ml milk</td><td class="num">35 / 18 / 5</td><td>Closing a protein gap fast. The highest protein per unit of effort you have.</td></tr>
+    <tr><td>200 g cottage cheese + fruit</td><td class="num">25 / 20 / 5</td><td>Afternoon anchor top-up. Slow-digesting, keeps you full through a long block of work.</td></tr>
+    <tr><td>2 boiled eggs + apple</td><td class="num">13 / 25 / 10</td><td>Desk snack. Boil a dozen on prep day.</td></tr>
+    <tr><td>2 cans tuna + crackers</td><td class="num">30 / 30 / 5</td><td>Shelf-stable emergency protein. Keep it in the desk drawer.</td></tr>
+    <tr><td>Bagel + 30 g peanut butter</td><td class="num">14 / 60 / 17</td><td>Pure carb loading on a hard-lift day when you're behind.</td></tr>
+  </table>
+</div>
+
+<!-- SAMPLE DAY -->
+<div class="msec">
+  <div class="shdr"><h2>Worked day</h2><span class="tag">HARD LIFT · TUE OR SAT</span></div>
+  <table class="tbl">
+    <tr><th>SLOT</th><th>WHAT</th><th>P</th><th>C</th><th>F</th></tr>
+    <tr><td>Anchor 1</td><td>Oats &amp; whey bowl</td><td class="num">42</td><td class="num">99</td><td class="num">16</td></tr>
+    <tr><td>Anchor 2</td><td>Chicken &amp; rice bowl</td><td class="num">46</td><td class="num">95</td><td class="num">19</td></tr>
+    <tr><td>Flex A</td><td>Dates + almonds</td><td class="num">5</td><td class="num">65</td><td class="num">12</td></tr>
+    <tr><td>Flex B</td><td>Chocolate milk</td><td class="num">17</td><td class="num">52</td><td class="num">8</td></tr>
+    <tr><td>Anchor 4</td><td>Yogurt bowl + whey</td><td class="num">47</td><td class="num">41</td><td class="num">19</td></tr>
+    <tr class="total"><td>Total</td><td>≈ 2,740 kcal</td><td class="num">157</td><td class="num">352</td><td class="num">74</td></tr>
+  </table>
+  <p class="note">Four eating occasions plus two drinks. On a rest day, drop Flex A entirely and the day lands near 2,400 — which is roughly where a rest day should sit anyway.</p>
+
+  <div class="callout">
+    <h3>Where this usually breaks</h3>
+    <p>Not at dinner. It breaks in the afternoon, when a session gets pushed and you skip Flex A, then arrive at the evening 700 kcal down and can't physically eat the difference. Keep dates, a whey tub and tuna where you actually are during the day — desk drawer, car, gym bag. Closing a 300 kcal gap at 3 p.m. is trivial; closing a 700 kcal gap at 9 p.m. is not.</p>
+  </div>
+</div>
+
+<!-- CREAMI -->
+<div class="msec">
+  <div class="shdr"><h2>Creami pints</h2><span class="tag">SPIN, DON'T SHRINK</span></div>
+  <p class="lede">Every pint below is built to <em>fill</em> a slot, not to save calories — skip the CreamiFit program and the sub-150-calorie recipes, they solve a problem you don't have. Fat and honey are what make a base spin creamy, so the numbers and the texture want the same thing.</p>
+
+  <div class="meal">
+    <div class="mhead"><h3>Vanilla berry frozen yogurt</h3><span class="macro"><b>46P</b> · 45C · 18F · 540</span></div>
+    <div class="mbody">
+      <ul>
+        <li>300 g Greek yogurt, 2%</li>
+        <li>10 g vanilla whey or casein</li>
+        <li>1 tbsp honey, splash of vanilla, pinch of salt</li>
+        <li>100 g frozen mixed berries</li>
+        <li>25 g pumpkin seeds, toasted — mix in <em>after</em> the spin</li>
+      </ul>
+      <p class="mnote">Swirled Frozen Yogurt · The nightly default. Macros are your Anchor 4 almost exactly.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Toasted almond cardamom</h3><span class="macro"><b>47P</b> · 35C · 19F · 505</span></div>
+    <div class="mbody">
+      <ul>
+        <li>300 g Greek yogurt, 2%</li>
+        <li>15 g vanilla whey</li>
+        <li>1 tbsp honey, ¼ tsp ground cardamom, pinch of salt</li>
+        <li>2–3 drops rosewater — more than that and it tastes like soap</li>
+        <li>25 g almonds, toasted and roughly chopped, mixed in after</li>
+      </ul>
+      <p class="mnote">Swirled Frozen Yogurt · Same slot as above when you're tired of berries. Toast the almonds dry in a pan for 4–5 minutes first — untoasted they taste like nothing against the cardamom.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Espresso chocolate custard</h3><span class="macro"><b>33P</b> · 44C · 16F · 450</span></div>
+    <div class="mbody">
+      <ul>
+        <li>250 ml whole milk</li>
+        <li>1 scoop chocolate whey</li>
+        <li>2 shots espresso, cooled</li>
+        <li>1 tbsp cocoa, 1.5 tbsp honey, 15 ml heavy cream</li>
+      </ul>
+      <p class="mnote">Frozen Custard · Roughly 120 mg caffeine — afternoon only, or pull decaf shots. Your own rule says count back 8–10 hours from bed.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Peanut butter banana custard</h3><span class="macro"><b>39P</b> · 66C · 23F · 630</span></div>
+    <div class="mbody">
+      <ul>
+        <li>250 ml whole milk</li>
+        <li>1 scoop vanilla whey</li>
+        <li>1 banana, very ripe</li>
+        <li>25 g peanut butter, 1 tbsp honey</li>
+      </ul>
+      <p class="mnote">Frozen Custard · The gap-closer. Keep a pint frozen for nights you're 600 short and can't face another plate.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Chocolate malt soft serve</h3><span class="macro"><b>37P</b> · 66C · 6F · 465</span></div>
+    <div class="mbody">
+      <ul>
+        <li>350 ml 1% milk</li>
+        <li>1 scoop chocolate whey</li>
+        <li>2 tbsp honey or maple</li>
+        <li>15 g malted milk powder</li>
+      </ul>
+      <p class="mnote">Soft Serve · Straight swap for the post-lift chocolate milk, with double the protein. Low fat on purpose — this one sits close to training.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Mango lassi fruit whip</h3><span class="macro"><b>33P</b> · 54C · 1F · 360</span></div>
+    <div class="mbody">
+      <ul>
+        <li>200 g frozen mango</li>
+        <li>200 g Greek yogurt, 0%</li>
+        <li>15 g vanilla whey</li>
+        <li>1 tbsp honey, pinch of cardamom and salt</li>
+      </ul>
+      <p class="mnote">Fruit Whip · For days the fat budget is already spent. Best pint here after a swim.</p>
+    </div>
+  </div>
+
+  <div class="meal">
+    <div class="mhead"><h3>Lemon cheesecake</h3><span class="macro"><b>50P</b> · 39C · 11F · 455</span></div>
+    <div class="mbody">
+      <ul>
+        <li>300 g cottage cheese, 2% — <b>blend completely smooth before freezing</b></li>
+        <li>20 g vanilla whey</li>
+        <li>1 tbsp honey, zest and juice of half a lemon, pinch of salt</li>
+        <li>15 g crushed biscuit, mixed in after</li>
+      </ul>
+      <p class="mnote">Frozen Yogurt · The protein rescue. Unblended cottage cheese spins grainy no matter what program you run.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>Getting the texture right</h3>
+    <p><b>Freeze 24 h on a level shelf</b> — a tilted pint spins unevenly and no program fixes it. <b>Crumbly after the first spin?</b> Add 1–2 tbsp milk and re-spin; that solves almost everything. <b>Always add a pinch of salt and keep the honey</b> — both lower the freezing point, which is the actual mechanism behind a creamy result. A lean base of protein powder and water freezes into chalk. <b>Mix-ins go in after the spin</b>, on the Mix-In program, or nuts turn to dust. <b>Batch four pints on Sunday prep day</b> so there's always one frozen and ready — the 24-hour lead time is the only thing that makes this fail in practice.</p>
+  </div>
+</div>
 </div>
 
 <!-- MOBILITY -->
